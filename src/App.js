@@ -1,30 +1,42 @@
-import React, { useState } from 'react';
+/* eslint-disable no-restricted-syntax */
+import React, { useState } from 'react'; // The code imports React and the useState hook from the 'react' library.
 
 export default function MemesGenerator() {
-  const [topText, setTopText] = useState(''); // Initialize state for top text
+  // The MemesGenerator function is defined as a React functional component.
+  const [topText, setTopText] = useState(''); // Several state variables are defined using the useState hook
   const [bottomText, setBottomText] = useState('');
   const [memeTemplate, setMemeTemplate] = useState('doge');
   const [memeUrl, setMemeUrl] = useState('');
 
   const generateMeme = () => {
-    // Function to generate meme URL
-    const apiUrl = `https://memegen.link/${memeTemplate}/${topText}/${bottomText}.jpg`;
-
-    setMemeUrl(apiUrl); // Update meme URL state with the generated URL
+    // This function is called when the "Generate Meme" button is clicked.
+    try {
+      const apiUrl = `https://memegen.link/${memeTemplate}/${topText}/${bottomText}.jpg`;
+      setMemeUrl(apiUrl);
+    } catch (error) {
+      console.error('Error generating meme URL:', error);
+      // Handle the error, e.g. display an error message to the user
+    }
   };
 
-  const handleMemeTemplateChange = (event) => {
-    setMemeTemplate(event.target.value); // Handle changes in meme template input and update state
+  function handleTopTextChange(event) {
+    // Updates the topText state when the top text input field value changes.
+    setTopText(event.target.value);
+  }
+
+  const handleBottomTextChange = (event) => {
+    setBottomText(event.target.value);
   };
 
   return (
     <div className="meme-generator">
       <label htmlFor="topText">Top text</label>
       <input
+        // eslint-disable-next-line upleveled/no-unnecessary-html-attributes
         type="text"
         id="topText"
         value={topText}
-        onChange={(e) => setTopText(e.target.value)}
+        onChange={handleTopTextChange}
       />
 
       <button onClick={generateMeme}>Generate Meme</button>
@@ -40,20 +52,21 @@ export default function MemesGenerator() {
 
       <label htmlFor="bottomText">Bottom text</label>
       <input
+        // eslint-disable-next-line upleveled/no-unnecessary-html-attributes
         type="text"
         id="bottomText"
         value={bottomText}
-        onChange={(e) => setBottomText(e.target.value)}
+        onChange={handleBottomTextChange}
       />
 
       <label htmlFor="memeTemplate">Meme template</label>
       <input
+        // eslint-disable-next-line upleveled/no-unnecessary-html-attributes
         type="text"
         id="memeTemplate"
         value={memeTemplate}
-        onChange={handleMemeTemplateChange} // Input for meme template with controlled state
+        onChange={memeTemplate}
       />
-
       <a href={memeUrl} download="meme.jpg">
         {' '}
         <button>Download Meme</button>
